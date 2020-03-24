@@ -18,7 +18,7 @@ Apify.main(async () => {
     page.on('response', async (res) => {
         if (res.url() === 'https://www.cdc.gov/coronavirus/2019-ncov/map-data-cases.csv') {
             casesByStateCsv = await res.text();
-        } else if (res.url() === 'https://www.cdc.gov/coronavirus/2019-ncov/us-cases-epi-chart.json') {
+        } else if (res.url() === 'https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/us-cases-epi-chart.json') {
             json = await res.json();
         }
     });
@@ -33,6 +33,7 @@ Apify.main(async () => {
         return { totalDeaths, totalCases,dateUpdated };
     });
     const casesByStateCsvParsed = await neatCsv(casesByStateCsv);
+
     const { columns: [dates, values] } = json.data;
     dates.splice(0, 1);
     values.splice(0, 1);
